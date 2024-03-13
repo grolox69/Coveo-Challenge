@@ -46,8 +46,80 @@
       <div class="results">
         <atomic-did-you-mean></atomic-did-you-mean>
         <atomic-result-list fields-to-include="snrating,sncost,ytvideoduration,ytthumbnailurl">
+          <atomic-result-template must-match-sourcetype="YouTube">
+            <template>
+              <style>
+                .field {
+                  display: inline-flex;
+                  align-items: center;
+                }
+    
+                .field-label {
+                  font-weight: bold;
+                  margin-right: 0.25rem;
+                }
 
-          <!-- TODO: Task #1 -->
+                .metadata { 
+                  display: grid;
+                }
+
+                .section { 
+                  /* Bad practice sadly */
+                  display: flex !important; 
+                  min-height: 120px;
+                }
+
+                .ytimage img {
+                  width: unset;
+                  margin-left: auto;
+                }
+
+                .duration::after {
+                  content: " sec";
+                }
+              </style>
+              
+              <!-- Badges -->
+              <atomic-result-section-badges>
+                <atomic-field-condition must-match-is-featured="true">
+                  <atomic-result-badge label="Featured"></atomic-result-badge>
+                </atomic-field-condition>
+                <atomic-field-condition must-match-is-top-result="true">
+                  <atomic-result-badge label="Top Result"></atomic-result-badge>
+                </atomic-field-condition>
+              </atomic-result-section-badges>
+              
+              <atomic-result-section-actions>
+                <!-- Date -->
+                <atomic-result-date class="date"></atomic-result-date>
+              </atomic-result-section-actions>
+              
+              <!-- YouTube video title -->
+              <atomic-result-section-title>
+                <atomic-result-link></atomic-result-link>
+              </atomic-result-section-title>
+
+              <atomic-result-section-excerpt class="section">
+                <!-- Excerpt -->
+                <atomic-result-text field="excerpt"></atomic-result-text>
+                <!-- Thumbnail -->
+                <atomic-result-image class="ytimage" field="ytthumbnailurl"></atomic-result-image>
+              </atomic-result-section-excerpt>
+
+              <atomic-result-section-bottom-metadata class="metadata">
+                <!-- Duration -->
+                <atomic-field-condition class="field" if-defined="ytvideoduration">
+                  <span class="field-label">
+                    <atomic-text value="Length"></atomic-text>:
+                  </span>
+                  <atomic-result-number class="duration" field="ytvideoduration"></atomic-result-text>
+                </atomic-field-condition>
+
+                <!-- URI -->
+                <atomic-result-printable-uri></atomic-result-printable-uri>
+              </atomic-result-section-bottom-metadata>
+            </template>
+          </atomic-result-template>
 
           <atomic-result-template>
             <template>
