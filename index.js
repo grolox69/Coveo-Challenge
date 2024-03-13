@@ -23,5 +23,24 @@ let headlessEngine;
 })();
 
 function filterFor2022(e) {
-    // TODO: Task #2
+    const { executeSearch } = loadSearchActions(headlessEngine);
+    const { logStaticFilterDeselect, logStaticFilterSelect } = loadSearchAnalyticsActions(headlessEngine);
+    const { updateAdvancedSearchQueries } = loadAdvancedSearchQueryActions(headlessEngine);
+
+    const isActive = e.currentTarget.classList.contains('active');
+    const filterExpression = '@year==2022';
+
+    headlessEngine.dispatch(updateAdvancedSearchQueries({
+        aq: isActive ? '' : filterExpression
+    }));
+
+    // Log the analytics event
+    if (isActive) {
+        headlessEngine.dispatch(logStaticFilterDeselect({filterName: 'filterFor2022'}));
+    } else {
+        headlessEngine.dispatch(logStaticFilterSelect({filterName: 'filterFor2022'}));
+    }
+
+    e.currentTarget.classList.toggle('active');
+    headlessEngine.dispatch(executeSearch(logStaticFilterSelect({filterName: 'filterFor2022'})));
 }
